@@ -96,9 +96,12 @@ const SupportDashboard = () => {
       <div className="page-content">
         <Container fluid>
         {loading ? (
-            <div className="text-center" style={{ marginTop: "20%" }}>
-              <Spinner color="primary" />
-            </div>
+            <div
+            className="d-flex justify-content-center align-items-center"
+            style={{ height: "100vh" }} // Full viewport height
+          >
+            <Spinner color="primary" />
+          </div>
           ):
           <>
           
