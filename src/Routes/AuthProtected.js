@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Navigate } from "react-router-dom";
+import { Navigate, useLocation } from "react-router-dom";
 import { setAuthorization } from "../helpers/api_helper";
 import { useDispatch } from "react-redux";
 import { useProfile } from "../Components/Hooks/UserHooks";
@@ -8,7 +8,7 @@ import { logoutLicenseUser } from "../slices/ERPLogin/auth/login/thunk";
 const AuthProtected = ({ children }) => {
   const dispatch = useDispatch();
   const { userProfile, loading, token, otpVerified, addressVerified } = useProfile();
-
+  const location=useLocation();
   useEffect(() => {
     if (userProfile && token) {
       setAuthorization(token);
@@ -16,9 +16,9 @@ const AuthProtected = ({ children }) => {
       dispatch(logoutLicenseUser());
     }
   }, [token, userProfile, loading, dispatch]);
-
+  sessionStorage.setItem('previousPage',window.location.href);
   if (!userProfile && loading && !token) {
-    return <Navigate to="/Login" />;
+    return <Navigate to={`/Login?redirect=${encodeURIComponent(location.pathname)}`} />;
   }
 
   if (userProfile && token && !otpVerified) {

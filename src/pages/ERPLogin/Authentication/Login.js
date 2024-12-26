@@ -19,7 +19,7 @@ import ParticlesAuth from "../AuthenticationInner/ParticlesAuth";
 import { useSelector, useDispatch } from "react-redux";
 
 //comment for git
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import withRouter from "../../../Components/Common/withRouter";
 // Formik validation
 import * as Yup from "yup";
@@ -50,6 +50,8 @@ const Login = (props) => {
   const [userLogin, setUserLogin] = useState({}); // Initialize as an object
   const [autoSubmitted, setAutoSubmitted] = useState(false); // Track auto submission
   const userType = (localStorage.getItem("userType"));
+  const [searchParams]=useSearchParams();
+  
   useEffect(() => {
     // Retrieve userName and password from localStorage
     const userName = localStorage.getItem("userName");
@@ -72,39 +74,13 @@ const Login = (props) => {
   useEffect(() => {
     const lastVisitedPath = localStorage.getItem('lastVisitedPath');
     const userType = localStorage.getItem('userType');
-
-    if (success && lastVisitedPath) {
-      window.location.href = lastVisitedPath;
-      localStorage.removeItem('lastVisitedPath');
-    }
-    else if (success && userType === "Infinity-ERP") {
-      navigate("/InfinityDashboard");
-    }
-    else if (success && userType === "Support-Portal") {
-      navigate("/support-dashboard");
+    const prevPage=sessionStorage.getItem('previousPage')||"/support-dashboard";
+    if (success ) {
+      window.location.href=prevPage;
     }
   }, [success, navigate]);
 
-  useEffect(() => {
-    if (success) {
-      // Navigate based on OTP verification status
-
-      if (userType == "Vend-X") {
-        navigate("/vendor-dashboard");
-      }
-      else if (userType == "Infinity-ERP") {
-        navigate("/support-dashboard");
-      }
-      else if (userType == "Support-Portal") {
-        navigate("/support-dashboard");
-      }
-      else if (userType == "CPTeam") {
-        navigate("/support-dashboard");
-      }
-      
-      
-    }
-  }, [success, navigate, data]);
+ 
   const validation = useFormik({
     // enableReinitialize : use this flag when initial values needs to be changed
     enableReinitialize: true,
