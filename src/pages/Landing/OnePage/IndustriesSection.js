@@ -3,11 +3,14 @@ import { gsap } from "gsap";
 import { Draggable } from "gsap/Draggable";
 import { Link } from "react-router-dom";
 import { ArrowRight, X } from "lucide-react";
-import steel from "../../../assets/images/industriues/steel.jpg";
-import restaurant from "../../../assets/images/industriues/restaurant.jpeg";
-import hospital from "../../../assets/images/industriues/hospital.jpg";
-import educational from "../../../assets/images/industriues/educational.png";
-import theater from "../../../assets/images/industriues/theater.jpg";
+import steel from "../../../assets/images/industriues/steel-industry.svg";
+import restaurant from "../../../assets/images/industriues/restaurants.svg";
+import hospital from "../../../assets/images/industriues/hospital.svg";
+import educational from "../../../assets/images/industriues/education.svg";
+import theater from "../../../assets/images/industriues/theater.svg";
+import retail from "../../../assets/images/industriues/retail.svg";
+import supplier from "../../../assets/images/industriues/supplier.svg";
+import industry from "../../../assets/images/industriues/industry.svg";
 import "../../../assets/scss/pages/IndustriesSection.scss";
 
 gsap.registerPlugin(Draggable);
@@ -15,12 +18,11 @@ gsap.registerPlugin(Draggable);
 const IndustriesSection = () => {
   const [selectedCard, setSelectedCard] = useState(null);
   const [isRotating, setIsRotating] = useState(true);
-  const [cardSize, setCardSize] = useState(100);
-  const [duplicateCount, setDuplicateCount] = useState(1);
+  const [cardSize, setCardSize] = useState(120); // Fixed card size
+  const [duplicateCount, setDuplicateCount] = useState(3); // Fixed duplicate count
   const wheelRef = useRef(null);
   const cardsRef = useRef([]);
   const dragInstanceRef = useRef(null);
-  const sectionRef = useRef(null);
   const rotationRef = useRef(null);
 
   // Your existing industries array (same as before)
@@ -88,7 +90,7 @@ const IndustriesSection = () => {
         satisfaction: 93,
         automation: 85,
       },
-      img: steel,
+      img: supplier,
       features: [
         "Procurement Tools",
         "Supply Chain Management",
@@ -124,7 +126,7 @@ const IndustriesSection = () => {
         satisfaction: 91,
         automation: 80,
       },
-      img: theater,
+      img: retail,
       features: [
         "Inventory Tracking",
         "Sales Analytics",
@@ -151,7 +153,7 @@ const IndustriesSection = () => {
     },
     {
       id: 8,
-      title: "Solvent Extraction Plant Management",
+      title: "Solvent Plant Management",
       subtitle: "Optimize with Infinity ERP",
       description:
         "Streamline the operations of your solvent extraction plant, from raw material handling to extraction processes and quality control, all in one system.",
@@ -160,7 +162,7 @@ const IndustriesSection = () => {
         satisfaction: 91,
         automation: 86,
       },
-      img: steel,
+      img: industry,
       features: [
         "Material Handling",
         "Extraction Processes",
@@ -174,27 +176,7 @@ const IndustriesSection = () => {
   // Adjust card size and duplicate count based on screen size
   // Adjust card size and duplicate count based on screen size
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth <= 480) {
-        setCardSize(120);
-        setDuplicateCount(3);
-      } else if (window.innerWidth <= 768) {
-        setCardSize(120);
-        setDuplicateCount(3);
-      } else {
-        setCardSize(120);
-        setDuplicateCount(3);
-      }
-    };
-
-    // Initial call
-    handleResize();
-
-    // Add event listener
-    window.addEventListener("resize", handleResize);
-
-    // Cleanup
-    return () => window.removeEventListener("resize", handleResize);
+    setup();
   }, []);
 
   // Dynamic repeating of industries based on screen size
@@ -223,19 +205,19 @@ const IndustriesSection = () => {
     const wheel = wheelRef.current;
     const cards = cardsRef.current;
 
-    // Dynamically calculate radius based on card size and number of cards
+    // Fixed calculations for consistent wheel size
     const cardCount = cards.length;
-    const cardCircumference = cardSize + 20; // Card size + gap
+    const cardCircumference = cardSize + 20; // Card size + fixed gap
     const radius = (cardCircumference * cardCount) / (2 * Math.PI);
-    const center = radius;
     const slice = 360 / cardCount;
     const DEG2RAD = Math.PI / 180;
 
+    // Position cards
     cards.forEach((card, i) => {
       if (card) {
         gsap.set(card, {
-          x: center + radius * Math.sin(i * slice * DEG2RAD),
-          y: center - radius * Math.cos(i * slice * DEG2RAD),
+          x: radius + radius * Math.sin(i * slice * DEG2RAD),
+          y: radius - radius * Math.cos(i * slice * DEG2RAD),
           rotation: i * slice,
           xPercent: -50,
           yPercent: -50,
@@ -245,11 +227,14 @@ const IndustriesSection = () => {
       }
     });
 
-    // Adjust wheel size based on calculated radius
+    // Set consistent wheel size
     gsap.set(wheel, {
       width: radius * 2,
       height: radius * 2,
-      bottom: `-${radius}px`,
+      x: "50%",
+      xPercent: -50,
+      y: "50%",
+      yPercent: -50,
     });
   };
 
@@ -276,6 +261,9 @@ const IndustriesSection = () => {
     }
   };
   const handleCardClick = (industry, index) => {
+    // Prevent click handling during drag
+    if (dragInstanceRef.current?.isDragging) return;
+
     const isClosing = selectedCard?.uniqueId === industry.uniqueId;
     setSelectedCard(isClosing ? null : industry);
     setIsRotating(!isClosing);
@@ -369,7 +357,7 @@ const IndustriesSection = () => {
           <div className="industries-section__header-line" />
         </div>
 
-        <div className="industries-section__wheel">
+        <div className="industries-section__wheel-container">
           <div ref={wheelRef} className="wheel">
             {repeatedIndustries.map((industry, index) => (
               <div
@@ -402,14 +390,19 @@ const IndustriesSection = () => {
           </div>
 
           {selectedCard && (
-            <div className="industries-section__modal">
-              <div className="industries-section__modal-content">
+            <div
+              className="industries-section__modal"
+              onClick={handleOutsideClick}
+            >
+              <div
+                className="industries-section__modal-content"
+                onClick={(e) => e.stopPropagation()}
+              >
                 <button
                   onClick={() => {
                     setSelectedCard(null);
-                    if (isRotating && rotationRef.current) {
-                      rotationRef.current.resume();
-                    }
+                    setIsRotating(true);
+                    startRotation();
                   }}
                   className="industries-section__modal-close"
                 >
@@ -421,36 +414,30 @@ const IndustriesSection = () => {
                   <p>{selectedCard.subtitle}</p>
                 </div>
 
-                <div className="industries-section__modal-stats">
-                  {Object.entries(selectedCard.stats).map(([key, value]) => (
-                    <div
-                      key={key}
-                      className="industries-section__modal-stats-item"
-                    >
-                      <div className="value">{value}%</div>
-                      <div className="label">{key}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="industries-section__modal-features">
-                  <h3>Key Features</h3>
-                  <div className="industries-section__modal-features-list">
-                    {selectedCard.features.map((feature) => (
-                      <span key={feature}>{feature}</span>
-                    ))}
+                <div className="industries-section__modal-body">
+                  <div className="industries-section__modal-icon">
+                    <img src={selectedCard.img} alt={selectedCard.title} />
                   </div>
-                </div>
 
-                <p className="industries-section__modal-description">
-                  {selectedCard.description}
-                </p>
+                  <p className="industries-section__modal-description">
+                    {selectedCard.description}
+                  </p>
 
-                <div className="industries-section__modal-actions">
-                  <button>
-                    <Link to="/Services_all">Learn More</Link>
-                    <ArrowRight />
-                  </button>
+                  <div className="industries-section__modal-features">
+                    <h3>Key Features</h3>
+                    <div className="industries-section__modal-features-list">
+                      {selectedCard.features.map((feature) => (
+                        <span key={feature}>{feature}</span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="industries-section__modal-actions">
+                    <Link to="/Services_all" className="learn-more-btn">
+                      Learn More
+                      <ArrowRight />
+                    </Link>
+                  </div>
                 </div>
               </div>
             </div>

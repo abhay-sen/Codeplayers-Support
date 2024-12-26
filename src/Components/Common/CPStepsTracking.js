@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Card, CardBody, CardHeader, Collapse, Button } from "reactstrap";
-import { Link,useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import classnames from "classnames";
 import moment from "moment";
 import { useDispatch } from "react-redux";
@@ -10,53 +10,47 @@ import { GET_DailyStatusDetails } from "../../slices/thunks";
 import { GET_TICKET_DETAILS } from "../../helpers/url_helper";
 import { GET_TicketDetails } from "../../slices/Dashboards/TicketDetails/thunk";
 const CPStepsTracking = ({
-  tracking = [],
+  SupportID = "",
   labelTitle = "Steps Tracking",
   Page = "",
-  statuses = [],
+
   onClick,
-  
 }) => {
   const [openSections, setOpenSections] = useState({});
   const location = useLocation();
 
   // Extract query parameters from the URL
-  
-  const url = window.location.href;
-  const queryParams = new URL(url).searchParams;
-  const queryID = queryParams.get("QueryID");
-
-
-
-  const SupportID = queryID;
-  
   const dispatch = useDispatch();
   const DailyStatusData = useSelector((state) => state.DailyStatus.data);
   const SupportStatusData = useSelector((state) => state.SupportStatuses.data);
-  const DailyStatusByIdData = useSelector((state) => state.DailyStatusById.data);
-  const DailyStatusByIdError = useSelector((state) => state.DailyStatusById.error);
+  const DailyStatusByIdData = useSelector(
+    (state) => state.DailyStatusById.data
+  );
+  const DailyStatusByIdError = useSelector(
+    (state) => state.DailyStatusById.error
+  );
   const DailyStatusError = useSelector((state) => state.DailyStatus.error);
 
   const data2 = useSelector((state) => state.TicketDetail.data) || [];
   const loading = useSelector((state) => state.TicketDetail.loading);
   const error = useSelector((state) => state.TicketDetail.error);
   const success = useSelector((state) => state.TicketDetail.success);
-  const query =data2[0];
+  const query = data2[0];
 
   // Handle row click
-  
- 
+
   // Effect to run when selectedRow changes
   useEffect(() => {
     if (SupportID) {
       dispatch(GET_TicketDetails(SupportID));
       dispatch(GET_DailyStatusDetails(SupportID));
     }
-  }, [ SupportID,dispatch]); 
-  const handleClose=()=>{
+  }, [dispatch, SupportID]);
+
+  const handleClose = () => {
     dispatch(GET_DailyStatusDetails(SupportID));
-  }
-  
+  };
+
   // Icon selection logic
   const getIconClass = (statusName) => {
     switch (statusName) {
@@ -109,15 +103,16 @@ const CPStepsTracking = ({
                 Today's Status
               </Button>
             )}
-
           </div>
         </CardHeader>
 
         <CardBody>
-          {statuses.length === 0 ? (
+          {!DailyStatusByIdData ? ( // Check if it's null or undefined
+            <h5 className="fs-16 mt-2 text-danger">Loading statuses...</h5> // Show a loading message or spinner
+          ) : DailyStatusByIdData.length === 0 ? ( // Check if the array is empty
             <h5 className="fs-16 mt-2 text-danger">No Statuses Available</h5>
           ) : (
-            [...statuses] // Create a shallow copy of the array to avoid mutating the original
+            [...DailyStatusByIdData] // Create a shallow copy of the array to avoid mutating the original
               .sort((a, b) => moment(a.StatusDate).diff(moment(b.StatusDate))) // Sort by StatusDate
               .map((status) => (
                 <div key={status.DailyID} className="accordion-item border-0">
@@ -125,38 +120,51 @@ const CPStepsTracking = ({
                     className="accordion-header"
                     onClick={() => toggleSection(status)}
                   >
-                    <Link
-                      to="#"
-                      className={classnames(
-                        "accordion-button",
-                        "p-2",
-                        "shadow-none",
-                        {
-                          collapsed: !openSections[status.DailyID],
-                        }
-                      )}
-                    >
-                      <div className="d-flex align-items-center">
-                        <div className="flex-shrink-0 avatar-xs">
-                          <div
-                            className={classnames("avatar-title rounded-circle", {
-                              "bg-success": status.SupportStatusName === "Done",
-                              "bg-body": status.SupportStatusName !== "Done",
-                            })}
-                          >
-                            <i className={getIconClass(status.SupportStatusName)}></i>
-                          </div>
-                        </div>
-                        <div className="flex-grow-1 ms-3">
-                          <h6 className="fs-15 mb-0 fw-semibold">
-                            {status.SupportStatusName}
-                          </h6>
-                          <span className="fs-11 text-muted">
-                            {moment.utc(status.StatusDate).local().format("DD MMM - hh:mm A")}
-                          </span>
-                        </div>
-                      </div>
-                    </Link>
+                    <div
+  className={classnames(
+    "accordion-button",
+    "p-2",
+    "shadow-none",
+    {
+      collapsed: !openSections[status.DailyID],
+    }
+  )}
+  onClick={() => toggleSection(status)} // Handle the click event
+  style={{
+    cursor: "pointer", // Make it look clickable
+    userSelect: "none", // Prevent text selection on click
+  }}
+>
+  <div className="d-flex align-items-center">
+    <div className="flex-shrink-0 avatar-xs">
+      <div
+        className={classnames(
+          "avatar-title rounded-circle",
+          {
+            "bg-success": status.SupportStatusName === "Done",
+            "bg-body": status.SupportStatusName !== "Done",
+          }
+        )}
+      >
+        <i
+          className={getIconClass(status.SupportStatusName)}
+        ></i>
+      </div>
+    </div>
+    <div className="flex-grow-1 ms-3">
+      <h6 className="fs-15 mb-0 fw-semibold">
+        {status.SupportStatusName}
+      </h6>
+      <span className="fs-11 text-muted">
+        {moment
+          .utc(status.StatusDate)
+          .local()
+          .format("DD MMM - hh:mm A")}
+      </span>
+    </div>
+  </div>
+</div>
+          
                   </div>
                   <Collapse
                     id={`collapse${status.DailyID}`}
@@ -169,7 +177,10 @@ const CPStepsTracking = ({
                         <span>
                           {status.DueDate === "0001-01-01T00:00:00"
                             ? "N/A"
-                            : moment.utc(status.DueDate).local().format("DD MMM YYYY, hh:mm A")}
+                            : moment
+                                .utc(status.DueDate)
+                                .local()
+                                .format("DD MMM YYYY, hh:mm A")}
                         </span>
                       </div>
                       <div className="d-flex justify-content-between mt-2">
@@ -181,7 +192,6 @@ const CPStepsTracking = ({
                 </div>
               ))
           )}
-
         </CardBody>
       </Card>
     );

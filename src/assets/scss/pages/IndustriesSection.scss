@@ -94,11 +94,28 @@ $text-dark: #111827;
     }
   }
 
-  // Wheel
-  &__wheel {
+  &__wheel-container {
     position: relative;
-    height: 165vh;
-    @include flex-center;
+    height: 25vh;
+    right: 445px;
+    width: 85%;
+    overflow: visible;
+    @media (max-width: 768px) {
+      position: relative;
+      height: 25vh;
+      right: 498px;
+      width: 85%;
+      overflow: visible;
+    }
+
+    .wheel {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      transform-origin: center center;
+      will-change: transform;
+    }
   }
 
   // Cards
@@ -131,14 +148,13 @@ $text-dark: #111827;
     &-icon {
       width: 3rem;
       height: 3rem;
-      margin-bottom: 1px;
+      margin-bottom: 10px;
       border-radius: 0.5rem;
-      background: rgba(255, 255, 255, 0.1);
       @include flex-center;
 
       img {
-        width: 2rem;
-        height: 2rem;
+        width: 4rem;
+        height: 6rem;
         object-fit: contain;
       }
     }
@@ -182,17 +198,26 @@ $text-dark: #111827;
     inset: 0;
     background: rgba(0, 0, 0, 0.6);
     backdrop-filter: blur(4px);
-    @include flex-center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     padding: 1rem;
     z-index: 50;
 
     &-content {
-      background: $text-white;
+      background: #ffffff;
       border-radius: 1rem;
-      width: 100%;
-      max-width: 42rem;
+      width: 90%;
+      max-width: 32rem;
       position: relative;
-      padding: 1.5rem;
+      padding: 2rem;
+      max-height: 90vh;
+      overflow-y: auto;
+
+      @media (max-width: 640px) {
+        padding: 1.5rem;
+        width: 95%;
+      }
     }
 
     &-close {
@@ -201,7 +226,9 @@ $text-dark: #111827;
       top: 1rem;
       padding: 0.5rem;
       border-radius: 50%;
+      background: transparent;
       transition: background-color 0.2s;
+      z-index: 2;
 
       &:hover {
         background: #f3f4f6;
@@ -216,19 +243,109 @@ $text-dark: #111827;
 
     &-header {
       margin-bottom: 1.5rem;
+      text-align: center;
 
       h2 {
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         font-weight: 700;
         color: $text-dark;
         margin-bottom: 0.5rem;
+
+        @media (max-width: 640px) {
+          font-size: 1.5rem;
+        }
       }
 
       p {
         color: #4b5563;
+        font-size: 1.125rem;
+
+        @media (max-width: 640px) {
+          font-size: 1rem;
+        }
       }
     }
 
+    &-body {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    &-icon {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1rem;
+
+      img {
+        width: 4rem;
+        height: 4rem;
+        object-fit: contain;
+      }
+    }
+
+    &-description {
+      color: #374151;
+      line-height: 1.6;
+      font-size: 1.125rem;
+      text-align: center;
+
+      @media (max-width: 640px) {
+        font-size: 1rem;
+      }
+    }
+
+    &-features {
+      h3 {
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+      }
+
+      &-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        justify-content: center;
+
+        span {
+          padding: 0.5rem 1rem;
+          background: #f5f3ff;
+          color: #9333ea;
+          border-radius: 9999px;
+          font-size: 0.875rem;
+          white-space: nowrap;
+        }
+      }
+    }
+
+    &-actions {
+      display: flex;
+      justify-content: center;
+      margin-top: 1rem;
+
+      .learn-more-btn {
+        background: #9333ea;
+        color: #ffffff;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: background-color 0.2s;
+        font-weight: 500;
+
+        &:hover {
+          background: #7e22ce;
+        }
+
+        svg {
+          width: 1rem;
+          height: 1rem;
+        }
+      }
+    }
     &-stats {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -308,6 +425,19 @@ $text-dark: #111827;
         }
       }
     }
+  }
+}
+@media (max-width: 768px) {
+  &__container {
+    overflow: hidden;
+  }
+
+  &__wheel-container {
+    position: relative;
+    transform: translateX(
+      50%
+    ); // Move wheel to maintain same position as desktop
+    margin-right: -50%; // Offset the transform
   }
 }
 

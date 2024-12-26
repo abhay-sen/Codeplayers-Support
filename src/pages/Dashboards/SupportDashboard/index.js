@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Col, Container, Row, Card, CardBody } from "reactstrap";
+import { Col, Container, Row, Card, CardBody, Spinner } from "reactstrap";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Mousewheel } from "swiper/modules";
 import CPBreadCrumbReporting from "../../../Components/CPComponents/CPDashboard/Support/CPBreadCrumbReporting";
@@ -28,8 +28,6 @@ import ApprovalPending from "./ReviewManager.js";
 const SupportDashboard = () => {
   const dispatch = useDispatch();
   const data = useSelector((state) => state.SupportDashboard.data) ;
-  
-  
   const loading = useSelector((state) => state.SupportDashboard.loading);
   const success = useSelector((state) => state.SupportDashboard.success);
   const navigate = useNavigate();
@@ -52,6 +50,9 @@ const SupportDashboard = () => {
       setCurrdata(data);
     }
   };
+
+
+  
 
   useEffect(() => {
 
@@ -94,6 +95,15 @@ const SupportDashboard = () => {
     <React.Fragment>
       <div className="page-content">
         <Container fluid>
+        {loading ? (
+            <div className="text-center" style={{ marginTop: "20%" }}>
+              <Spinner color="primary" />
+            </div>
+          ):
+          <>
+          
+          </>
+          }
           <CPBreadCrumbReporting title="Support Dashboard" pageTitle="Data" onDateRangeChange ={dateChange} handleModalClose={CloseModal}/>
 
           <Row className="d-flex">
