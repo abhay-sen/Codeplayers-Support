@@ -40,7 +40,7 @@ const TicketDetails = () => {
 
 
 
-  const SupportID = query?.SupportID;
+  const SupportID = queryID;
   const data = useSelector((state) => state.TicketDetail.data) || [];
   const loading = useSelector((state) => state.TicketDetail.loading);
   const error = useSelector((state) => state.TicketDetail.error);

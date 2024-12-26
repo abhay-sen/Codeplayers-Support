@@ -22,7 +22,13 @@ const CPStepsTracking = ({
 
   // Extract query parameters from the URL
   
-  const SupportID = JSON.parse(localStorage.getItem('query'))?.SupportID;
+  const url = window.location.href;
+  const queryParams = new URL(url).searchParams;
+  const queryID = queryParams.get("QueryID");
+
+
+
+  const SupportID = queryID;
   
   const dispatch = useDispatch();
   const DailyStatusData = useSelector((state) => state.DailyStatus.data);
