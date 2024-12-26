@@ -50,7 +50,7 @@ const TicketDetailsCard = ({ labelTitle, details, isCritical, icon }) => {
         </div>
       </CardHeader>
       <CardBody>
-        {details?.Name===undefined && Object.keys(details).length > 0 ? (
+        {details?.Name!==undefined || Object.keys(details).length > 0 ? (
           <table className="table table-borderless table-sm mb-0">
             <tbody>
               {Object.keys(details).map((key) => renderDetailRow(key, details[key]))}
