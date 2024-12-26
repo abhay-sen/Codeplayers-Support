@@ -20,7 +20,6 @@ const CPStepsTracking = ({
   const location = useLocation();
 
   // Extract query parameters from the URL
-
   const dispatch = useDispatch();
   const DailyStatusData = useSelector((state) => state.DailyStatus.data);
   const SupportStatusData = useSelector((state) => state.SupportStatuses.data);
