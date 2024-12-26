@@ -15,7 +15,10 @@ const ApprovalPending = ({ queries }) => {
     const [selectedRow, setSelectedRow] = useState(null);
 
     // Filter queries to exclude those with status "Done"
-    const filteredQueries = [];
+    const filteredQueries = (queries || []).filter(
+        (query) => query.CurrentStatus === "Approval Pending"
+      );
+      
 
     // Handle card click: Set data to localStorage and navigate to the ticket details page
     const handleCardClick = (queryData) => {

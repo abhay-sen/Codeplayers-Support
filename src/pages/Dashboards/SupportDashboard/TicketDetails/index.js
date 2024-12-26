@@ -47,7 +47,7 @@ const TicketDetails = () => {
   const success = useSelector((state) => state.TicketDetail.success);
   const [modal, setModal] = useState(false);
   const [modelOpen, setModalOpen] = useState(false);
-  const [selectedRow, setSelectedRow] = useState(data[0]);
+  
   const [modalData, setModalData] = useState(null);
   const DailyStatusData = useSelector((state) => state.DailyStatus.data);
   const SupportStatusData = useSelector((state) => state.SupportStatuses.data);
@@ -59,14 +59,14 @@ const TicketDetails = () => {
  
   const [IDdailyStatus,setIDdailyStatus]=useState([]);
   const [ticketData,setTicketData]=useState([]);
-
+  
   useEffect(()=>{
     dispatch(GET_TicketDetails(queryID));
-  },[dispatch])
+  },[dispatch,queryID])
   useEffect(() => {
     dispatch(GET_TicketDetails(queryID));
     setTicketData(data)
-  }, [dispatch,SupportID]);
+  }, [dispatch,queryID,SupportID]);
   useEffect(() => {
     if (queryID) {
       dispatch(GET_DailyStatusDetails(queryID));
@@ -82,7 +82,7 @@ const TicketDetails = () => {
     }
   }, [DailyStatusByIdData]);
 
-
+  
 
   const handleCloseModal = () => {
     // Any specific logic to handle when the modal closes
@@ -335,12 +335,12 @@ const TicketDetails = () => {
 
               <CPStepsTracking
                 Page="DailyStatus"
-                statuses={IDdailyStatus || []}
+                
                 labelTitle={IDdailyStatus?.TicketNumber || ""}
                 onClick={openModal}
                 SupportID={SupportID}
               />
-              <DailyStatusModal modalOpen={modal} modalData={modalData} selectedRow={selectedRow} onClose={handleCloseModal} />
+              <DailyStatusModal modalOpen={modal} modalData={modalData} selectedRow={data[0]} onClose={handleCloseModal} />
               <RaiseTicketModal isOpen={showRaiseTicketModal}
                 toggle={toggleModal}
                 onClose={handleModalSubmit}

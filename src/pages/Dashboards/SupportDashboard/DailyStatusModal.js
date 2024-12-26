@@ -62,7 +62,7 @@ const DailyStatusModal = ({ modalOpen, modalData, selectedRow, onClose }) => {
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      values.SupportID = selectedRow.SupportID;
+      values.SupportID = selectedRow?.SupportID;
       if (!values.dailyID) {
         await dispatch(POST_DailyStatus({ body: values }));
       } else {
@@ -145,10 +145,10 @@ const DailyStatusModal = ({ modalOpen, modalData, selectedRow, onClose }) => {
                 modalData?.SupportStatus || selectedRow?.SupportStatus || "",
               statusDate: modalData?.StatusDate
                 ? new Date(moment.utc(modalData.StatusDate).local()) // Convert modalData.StatusDate to local timezone
-                : selectedRow?.StatusDate // Check selectedRow.StatusDate
+                : selectedRow?.StatusDate // Check selectedRow?.StatusDate
                 ? (() => {
                     const [datePart, timePart] =
-                      selectedRow.StatusDate.split(" ");
+                      selectedRow?.StatusDate.split(" ");
                     const [day, month, year] = datePart.split("/").map(Number);
                     const [hours, minutes, seconds] = timePart
                       .split(":")
@@ -160,7 +160,7 @@ const DailyStatusModal = ({ modalOpen, modalData, selectedRow, onClose }) => {
                       hours,
                       minutes,
                       seconds
-                    ); // Default to selectedRow.StatusDate in local timezone
+                    ); // Default to selectedRow?.StatusDate in local timezone
                   })()
                 : new Date(), // Default to current date if none is available
 
@@ -169,8 +169,8 @@ const DailyStatusModal = ({ modalOpen, modalData, selectedRow, onClose }) => {
                 modalData.DueDate !== "0001-01-01T00:00:00"
                   ? new Date(moment.utc(modalData.DueDate).local()) // Convert modalData.DueDate to local timezone
                   : selectedRow?.DueDate &&
-                    selectedRow.DueDate !== "0001-01-01T00:00:00"
-                  ? new Date(moment.utc(selectedRow.DueDate).local()) // Convert selectedRow.DueDate to local timezone
+                    selectedRow?.DueDate !== "0001-01-01T00:00:00"
+                  ? new Date(moment.utc(selectedRow?.DueDate).local()) // Convert selectedRow?.DueDate to local timezone
                   : new Date(new Date().setDate(new Date().getDate() + 7)), // Default to current date + 7 days in local timezone
 
               solutionDetails: modalData?.Remarks || "",
@@ -306,7 +306,7 @@ const DailyStatusModal = ({ modalOpen, modalData, selectedRow, onClose }) => {
                                 cursor: "not-allowed", // Change cursor to indicate non-editable
                               }}
                               className="form-control"
-                              value={selectedRow.MenuCode || "N/A"}
+                              value={selectedRow?.MenuCode || "N/A"}
                               readOnly
                             />
                           </div>
@@ -329,7 +329,7 @@ const DailyStatusModal = ({ modalOpen, modalData, selectedRow, onClose }) => {
                                 cursor: "not-allowed", // Change cursor to indicate non-editable
                               }}
                               className="form-control"
-                              value={selectedRow.QuerySubject || "N/A"}
+                              value={selectedRow?.QuerySubject || "N/A"}
                               readOnly
                             />
                           </div>
@@ -353,7 +353,7 @@ const DailyStatusModal = ({ modalOpen, modalData, selectedRow, onClose }) => {
                                 cursor: "not-allowed", // Change cursor to indicate non-editable
                               }}
                               className="form-control"
-                              value={selectedRow.QueryDescription || "N/A"}
+                              value={selectedRow?.QueryDescription || "N/A"}
                               readOnly
                             />
                           </div>
