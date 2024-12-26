@@ -43,7 +43,11 @@ call dark/light mode
     window.scrollTo(0, 0);
   }, []); // Empty dependency array ensures this runs once when the component mounts
   return (
-    <div>
+    <div
+      style={{
+        overflow: "hidden",
+      }}
+    >
       <Navbar
         onChangeLayoutMode={onChangeLayoutMode}
         layoutModeType={layoutModeType}

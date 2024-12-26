@@ -190,10 +190,11 @@ call dark/light mode
         }
       );
 
-   
+      console.log("Email sent successfully:", result);
       setSubmitSuccess(true);
       reset(); // Reset form fields
     } catch (error) {
+      console.error("Submission failed:", error);
       setSubmitError("Failed to submit application. Please try again.");
     } finally {
       setIsSubmitting(false);

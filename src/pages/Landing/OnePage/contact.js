@@ -35,6 +35,8 @@ const Contact = () => {
         },
         "r_SucAvoFwjMMo3Z8"
       );
+
+      console.log("Email sent successfully:", result.text);
       alert("Message sent successfully!");
 
       // Reset form after successful submission

@@ -8,7 +8,6 @@ import {
   ModalHeader,
   ModalBody,
 } from "reactstrap";
-import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 // Import Images
@@ -49,7 +48,7 @@ const teamMembers = [
     description: "Director: Sales",
     avatar: avatar8,
     background:
-      "Manas Agrawal, Co-Founder and Director of Sales at CodePlayers, is pivotal in driving the company's success. He is responsible for devising and executing sales strategies that align with the company's overall business goals. This includes conducting thorough market research to identify emerging trends and opportunities, developing strategic sales plans, and setting ambitious yet achievable sales targets. Building and maintaining strong relationships with key clients and partners is also central to his role, which is essential for sustained business growth. In his management of the sales department, Manas provides comprehensive training and support to his team, fostering a collaborative and results-driven culture. He uses data analytics to track performance metrics, assess team performance, and implement necessary improvements. His leadership ensures that the sales team is motivated, well-equipped, and aligned with the company’s vision, contributing to the overall success of the department.",
+      "Manas Agrawal, Co-Founder and Director of Sales at CodePlayers, is pivotal in driving the company's success. He is responsible for devising and executing sales strategies that align with the company's overall business goals. This includes conducting thorough market research to identify emerging trends and opportunities, developing strategic sales plans, and setting ambitious yet achievable sales targets. Building and maintaining strong relationships with key clients and partners is also central to his role, which is essential for sustained business growth. In his management of the sales department, Manas provides comprehensive training and support to his team, fostering a collaborative and results-driven culture. He uses data analytics to track performance metrics, assess team performance, and implement necessary improvements. His leadership ensures that the sales team is motivated, well-equipped, and aligned with the company's vision, contributing to the overall success of the department.",
     education: "Master of Commerce",
     expertise: ["Sales Strategy", "Business Development", "Client Relations"],
     socialLinks: {
@@ -121,7 +120,7 @@ const teamMembers = [
     description: "Consultant: Business Development",
     avatar: avatar5,
     background:
-      "Arpit Agrawal is a strategic and insightful professional specializing in business development, holding an M.Tech degree from IIT Kharagpur. With a strong academic foundation and extensive expertise in business strategy, Arpit is a pivotal member of the CodePlayers team, driving growth and market expansion. As a Consultant in Business Development, Arpit is responsible for identifying and seizing new business opportunities, fostering client relationships, and enhancing CodePlayers' market presence. He collaborates closely with the sales and marketing teams to devise and implement strategies that give the company a competitive edge. His role involves thorough market analysis, understanding client needs, and developing customized solutions that align with business goals. Arpit’s strategic approach ensures that CodePlayers stays ahead in the dynamic ERP market.",
+      "Arpit Agrawal is a strategic and insightful professional specializing in business development, holding an M.Tech degree from IIT Kharagpur. With a strong academic foundation and extensive expertise in business strategy, Arpit is a pivotal member of the CodePlayers team, driving growth and market expansion. As a Consultant in Business Development, Arpit is responsible for identifying and seizing new business opportunities, fostering client relationships, and enhancing CodePlayers' market presence. He collaborates closely with the sales and marketing teams to devise and implement strategies that give the company a competitive edge. His role involves thorough market analysis, understanding client needs, and developing customized solutions that align with business goals. Arpit's strategic approach ensures that CodePlayers stays ahead in the dynamic ERP market.",
     education: "M.Tech, IIT Kharagpur",
     expertise: [
       "Business Strategy",
@@ -141,7 +140,7 @@ const teamMembers = [
     description: "Consultant: Business Development, Implementation and Support",
     avatar: avatar7,
     background:
-      "Ilesh Thakkar serves as the Business Head of our company, bringing a wealth of expertise in business development, implementation, and support. With a robust background in consultancy, Ilesh has played a critical role in driving our company’s strategic initiatives and ensuring the successful execution of business plans. His ability to identify growth opportunities and streamline operations has been instrumental in enhancing our market presence and expanding our client base In his role as a Consultant for Business Development, Implementation, and Support, Ilesh combines strategic vision with practical execution. He works closely with various teams to develop and implement strategies that align with the company’s goals. His insights and experience are invaluable in guiding projects from inception to completion, ensuring that they meet client needs and exceed expectations. His hands-on approach and attention to detail have earned him a reputation for excellence and reliability.",
+      "Ilesh Thakkar serves as the Business Head of our company, bringing a wealth of expertise in business development, implementation, and support. With a robust background in consultancy, Ilesh has played a critical role in driving our company's strategic initiatives and ensuring the successful execution of business plans. His ability to identify growth opportunities and streamline operations has been instrumental in enhancing our market presence and expanding our client base In his role as a Consultant for Business Development, Implementation, and Support, Ilesh combines strategic vision with practical execution. He works closely with various teams to develop and implement strategies that align with the company's goals. His insights and experience are invaluable in guiding projects from inception to completion, ensuring that they meet client needs and exceed expectations. His hands-on approach and attention to detail have earned him a reputation for excellence and reliability.",
     education: "MBA, Business Administration",
     expertise: [
       "Business Operations",
@@ -288,53 +287,130 @@ const Team = () => {
             toggle={closeMemberModal}
             centered
             size="lg"
+            className="modal-responsive"
           >
             <ModalHeader toggle={closeMemberModal}>
-              <h4 className="modal-title">{selectedMember.name}</h4>
+              <h4 className="modal-title mb-0">{selectedMember.name}</h4>
             </ModalHeader>
-            <ModalBody>
-              <Row>
-                <Col md={4} className="text-center align-items-center">
-                  <img
-                    src={selectedMember.avatar}
-                    alt={selectedMember.name}
-                    className="img-fluid rounded-circle mb-3"
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                      objectFit: "cover",
-                      border: "4px solid #007bff",
-                    }}
-                  />
-                  <h5>{selectedMember.name}</h5>
-                  <p className="text-muted">{selectedMember.role}</p>
+            <ModalBody className="p-4">
+              <Row className="g-4">
+                <Col xs={12} md={4} className="text-center">
+                  <div className="sticky-top" style={{ top: "1rem" }}>
+                    <img
+                      src={selectedMember.avatar}
+                      alt={selectedMember.name}
+                      className="img-fluid rounded-circle mb-3"
+                      style={{
+                        width: "160px",
+                        height: "160px",
+                        objectFit: "cover",
+                        border: "4px solid #007bff",
+                        maxWidth: "100%",
+                      }}
+                    />
+                    <h5 className="mb-2">{selectedMember.name}</h5>
+                    <p className="text-muted mb-3">{selectedMember.role}</p>
 
-                  {/* Social Links */}
-                  <div className="social-links mt-3">
-                    {Object.entries(selectedMember.socialLinks).map(
-                      ([platform, link]) => (
-                        <a
-                          key={platform}
-                          href={link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="btn btn-outline-primary btn-sm me-2"
-                        >
-                          {platform.charAt(0).toUpperCase() + platform.slice(1)}
-                        </a>
-                      )
-                    )}
+                    {/* Social Links */}
+                    <div className="social-links d-flex flex-wrap justify-content-center gap-2 mb-4">
+                      {Object.entries(selectedMember.socialLinks).map(
+                        ([platform, link]) => (
+                          <a
+                            key={platform}
+                            href={link}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="btn btn-outline-primary btn-sm"
+                          >
+                            {platform.charAt(0).toUpperCase() +
+                              platform.slice(1)}
+                          </a>
+                        )
+                      )}
+                    </div>
                   </div>
                 </Col>
-                <Col md={8}>
-                  <h6 className="text-primary">About</h6>
-                  <p>{selectedMember.background}</p>
+                <Col xs={12} md={8}>
+                  <div className="member-details">
+                    <h6 className="text-primary mb-3">About</h6>
+                    <p className="mb-4">{selectedMember.background}</p>
+
+                    {/* <h6 className="text-primary mb-3">Education</h6>
+                    <p className="mb-4">{selectedMember.education}</p>
+
+                    <h6 className="text-primary mb-3">Areas of Expertise</h6>
+                    <div className="d-flex flex-wrap gap-2 mb-4">
+                      {selectedMember.expertise.map((skill, index) => (
+                        <span
+                          key={index}
+                          className="badge bg-light text-primary"
+                        >
+                          {skill}
+                        </span>
+                      ))}
+                    </div> */}
+                  </div>
                 </Col>
               </Row>
             </ModalBody>
           </Modal>
         )}
       </Container>
+
+      {/* Add these styles to your CSS */}
+      <style>
+        {`
+          @media (max-width: 767px) {
+            .modal-responsive {
+              margin: 1rem;
+              max-width: calc(100% - 2rem);
+            }
+            
+            .modal-responsive .modal-body {
+              padding: 1rem !important;
+            }
+            
+            .modal-responsive .member-details {
+              margin-top: 2rem;
+            }
+            
+            .social-links {
+              margin-bottom: 2rem;
+            }
+            
+            .modal-responsive .sticky-top {
+              position: relative;
+              top: 0;
+              padding-bottom: 1rem;
+              border-bottom: 1px solid #dee2e6;
+            }
+          }
+          
+          .member-details h6 {
+            font-weight: 600;
+          }
+          
+          .badge {
+            padding: 0.5rem 1rem;
+            font-weight: 500;
+          }
+          
+          .modal-responsive .modal-content {
+            border-radius: 1rem;
+            border: none;
+            box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+          }
+          
+          .transform-on-hover {
+            transition: transform 0.3s ease;
+            cursor: pointer;
+          }
+          
+          .transform-on-hover:hover {
+            transform: translateY(-5px);
+          }
+        `}
+      </style>
     </motion.div>
   );
 };
