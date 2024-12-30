@@ -5,35 +5,17 @@ import * as Yup from "yup";
 import { Alert, Card, CardBody, Container, Row, Col, Form, Input, Label, Button, FormFeedback } from "reactstrap";
 import avatar from "../../assets/images/users/avatar-1.jpg"; // Default avatar
 
-// Actions
 import { PATCH_USER_Data } from "../../slices/thunks"; // Adjust the import path as needed
-
+import { FaUserCircle } from "react-icons/fa";
 const UserProfile = () => {
     const dispatch = useDispatch();
 
-    // State variables
     const [email, setEmail] = useState("");
     const [userName, setUserName] = useState("");
     const [mobileNumber, setMobileNumber] = useState("");
     const [role, setRole] = useState("");
     const [image, setImage] = useState(null); // Profile picture (Base64)
 
-    // const { error, success } = useSelector((state) => state.profile); // Adjust based on your store structure
-
-    useEffect(() => {
-        // Fetch user data from localStorage
-        const vendorUser = JSON.parse(localStorage.getItem("vendorUser"));
-        console.log(vendorUser);
-        if (vendorUser) {
-            setEmail(localStorage.getItem("userName") || ""); // Set email from localStorage
-            setUserName(vendorUser.subUserName || ""); // Set username
-            setMobileNumber(vendorUser.mobileNumber || ""); // Set mobile number
-            setRole(vendorUser.userRole || ""); // Set role
-            setImage(vendorUser.SubUserProfileImage || avatar); // Set profile image
-        }
-    });
-
-    // Function to convert image to Base64 string
     const convertToBase64 = (file) => {
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
@@ -42,31 +24,47 @@ const UserProfile = () => {
             reader.readAsDataURL(file); // Read file as Base64
         });
     };
+    const getImageSrc = (base64String, mimeType = "image/png") => {
+        if (!base64String) return "";
+        return `data:${mimeType};base64,${base64String}`;
+    };
 
-    // Formik validation and submission
+    useEffect(() => {
+        const vendorUser = JSON.parse(localStorage.getItem("vendorUser"));
+        if (vendorUser) {
+            setEmail(localStorage.getItem("userName") || "");
+            setUserName(vendorUser.subUserName || "");
+            setMobileNumber(vendorUser.mobileNumber || "");
+            setRole(vendorUser.userRole || "");
+            setImage(vendorUser.SubUserProfileImage || "");
+            setImage(getImageSrc(vendorUser.subUserProfileImage, "image/png")||"");
+        }
+    }); // Added missing dependency array to prevent repeated executions.
+
     const validation = useFormik({
         enableReinitialize: true,
         initialValues: {
-            Name: userName || "Admin", // Username
-            SubUserProfileImage: image || "", // Profile image (Base64)
+            Name: userName || "Admin",
+            SubUserProfileImage: image || "",
         },
         validationSchema: Yup.object({
-            Name: Yup.string().required("Please Enter Your UserName"), // Username validation
+            Name: Yup.string().required("Please Enter Your UserName"),
         }),
         onSubmit: (values) => {
-            // Dispatch the action to update the profile with username and profile image
-            dispatch(PATCH_USER_Data(values));
+            const updatedValues = {
+                ...values,
+                IsActive: true,
+            };
+            dispatch(PATCH_USER_Data(updatedValues));
         },
     });
 
-    // Handle profile image change
     const handleProfileImageChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            // Convert image to Base64 format
             const base64Image = await convertToBase64(file);
-            setImage(base64Image); // Update image state with the Base64 string
-            validation.setFieldValue("SubUserProfileImage", base64Image); // Set Base64 string in Formik
+            setImage(base64Image);
+            validation.setFieldValue("SubUserProfileImage", base64Image);
         }
     };
 
@@ -78,19 +76,21 @@ const UserProfile = () => {
                 <Container fluid>
                     <Row>
                         <Col lg="12">
-                            {/* {error && <Alert color="danger">{error}</Alert>}
-                            {success && <Alert color="success">Username Updated To {userName}</Alert>} */}
-
-                            {/* User Profile Info */}
                             <Card>
                                 <CardBody>
                                     <div className="d-flex">
                                         <div className="mx-3">
-                                            <img
-                                                src={image || avatar} // Use profile image or default avatar
-                                                alt="User Avatar"
-                                                className="avatar-md rounded-circle img-thumbnail"
-                                            />
+                                            {image ? (
+                                                          <img
+                                                            src={image}
+                                                            alt="User Avatar"
+                                                            className="avatar-md rounded-circle img-thumbnail"
+                                                            style={{ width: "40px", height: "40px" }} // Same size as FaUserCircle icon
+                                                          />
+                                                        ) : (
+                                                          <FaUserCircle size={40} color="#ccc" />
+                                                        )}
+                                            
                                         </div>
                                         <div className="flex-grow-1 align-self-center">
                                             <div className="text-muted">
@@ -108,7 +108,6 @@ const UserProfile = () => {
 
                     <h4 className="card-title mb-4">Change User Name</h4>
 
-                    {/* Form to Update Username and Profile Image */}
                     <Card>
                         <CardBody>
                             <Form
@@ -119,7 +118,6 @@ const UserProfile = () => {
                                     return false;
                                 }}
                             >
-                                {/* Profile Image Upload */}
                                 <div className="form-group">
                                     <Label className="form-label">Profile Picture</Label>
                                     <Input
@@ -130,7 +128,6 @@ const UserProfile = () => {
                                     />
                                 </div>
 
-                                {/* Username Input */}
                                 <div className="form-group">
                                     <Label className="form-label">User Name</Label>
                                     <Input
@@ -148,8 +145,11 @@ const UserProfile = () => {
                                     ) : null}
                                 </div>
 
-                                {/* Hidden Field for Profile Image */}
-                                <Input name="SubUserProfileImage" value={image} type="hidden" />
+                                <Input
+                                    name="SubUserProfileImage"
+                                    value={validation.values.SubUserProfileImage || ""}
+                                    type="hidden"
+                                />
 
                                 <div className="text-center mt-4">
                                     <Button type="submit" color="danger">
