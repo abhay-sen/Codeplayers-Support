@@ -44,6 +44,11 @@ const ProfileDropdown = () => {
           </span>
         </DropdownToggle>
         <DropdownMenu className="dropdown-menu-end">
+          {/*Edit Profile Page*/}
+          <DropdownItem href="/profile">
+            <i className="mdi mdi-key-outline text-muted fs-16 align-middle me-1"></i>{" "}
+            <span className="align-middle">Profile</span>
+          </DropdownItem>
           {/* Change Password Section */}
           <DropdownItem href="/ChangePassword">
             <i className="mdi mdi-key-outline text-muted fs-16 align-middle me-1"></i>{" "}
