@@ -1,31 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Card, CardHeader, CardBody } from "reactstrap";
-import { FaPen } from "react-icons/fa";
 
-const DataTable = ({ data, columns, heading, onUpdate }) => {
-    const [editableData, setEditableData] = useState(data || []);
-    const [editRowIndex, setEditRowIndex] = useState(null);
-    
-    useEffect(() => {
-        setEditableData(data || []);
-    }, [data]);
-
-    const handleInputChange = (rowIndex, key, value) => {
-        const updatedData = editableData.map((item, index) =>
-            index === rowIndex ? { ...item, [key]: value } : item
-        );
-        setEditableData(updatedData);
-    };
-
-    const saveEdit = () => {
-        if (onUpdate && editRowIndex !== null) {
-            const updatedRow = editableData[editRowIndex];
-            onUpdate(updatedRow); // Pass updated row to parent
-        }
-        setEditRowIndex(null);
-    };
-
+const DataTable = ({ data, columns, heading }) => {
     const renderHeaders = () => (
         <>
             {columns.map((col, index) => (
@@ -33,48 +10,17 @@ const DataTable = ({ data, columns, heading, onUpdate }) => {
                     {col.label}
                 </th>
             ))}
-            <th scope="col">Actions</th>
         </>
     );
 
     const renderRows = () =>
-        editableData.map((row, rowIndex) => (
+        data.map((row, rowIndex) => (
             <tr key={rowIndex}>
                 {columns.map((col, colIndex) => (
                     <td key={colIndex}>
-                        {editRowIndex === rowIndex ? (
-                            <input
-                                type="text"
-                                value={row[col.key]}
-                                onChange={(e) =>
-                                    handleInputChange(rowIndex, col.key, e.target.value)
-                                }
-                                className="form-control"
-                            />
-                        ) : col.render ? (
-                            col.render(row)
-                        ) : (
-                            row[col.key]
-                        )}
+                        {col.render ? col.render(row) : row[col.key]}
                     </td>
                 ))}
-                <td>
-                    {editRowIndex === rowIndex ? (
-                        <button
-                            className="btn btn-sm btn-success"
-                            onClick={saveEdit}
-                        >
-                            Save
-                        </button>
-                    ) : (
-                        <button
-                            className="btn btn-sm"
-                            onClick={() => setEditRowIndex(rowIndex)}
-                        >
-                            <FaPen />
-                        </button>
-                    )}
-                </td>
             </tr>
         ));
 
@@ -91,11 +37,11 @@ const DataTable = ({ data, columns, heading, onUpdate }) => {
                                 <tr>{renderHeaders()}</tr>
                             </thead>
                             <tbody>
-                                {editableData.length > 0 ? (
+                                {data.length > 0 ? (
                                     renderRows()
                                 ) : (
                                     <tr>
-                                        <td colSpan={columns.length + 1} className="text-center">
+                                        <td colSpan={columns.length} className="text-center">
                                             No data available
                                         </td>
                                     </tr>
@@ -119,7 +65,6 @@ DataTable.propTypes = {
         })
     ).isRequired,
     heading: PropTypes.string.isRequired,
-    onUpdate: PropTypes.func.isRequired,
 };
 
 export default DataTable;

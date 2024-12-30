@@ -3,7 +3,6 @@ import { Spinner } from "reactstrap";
 import UserRegisterModal from "./UserRegisterModal"; // Adjust import path accordingly
 import { useDispatch, useSelector } from "react-redux";
 import { GET_USER_Data } from "../../../slices/Infinity/User/Data/thunk";
-import { PATCH_USER_Data } from "../../../slices/Infinity/User/Register/thunk";
 import DataTable from "../../../Components/CPComponents/CPDashboard/CPDataTable";
 
 const Users = () => {
@@ -21,23 +20,14 @@ const Users = () => {
         dispatch(GET_USER_Data());
     }, [dispatch]);
 
-
-    const handleRowUpdate = (updatedRow) => {
-        // Create a new object by spreading the original updatedRow and modifying SubUserProfileImage
-        const newRow = { ...updatedRow, SubUserProfileImage: "" };
-
-        // Dispatch the action with the updated newRow
-        dispatch(PATCH_USER_Data(newRow));
-    };
-
-
     const columns = [
-        { label: "Name", key: "Name" },
-        { label: "WhatsApp Number", key: "WhatsappNumber" },
-        { label: "Email ID", key: "EmailID" },
+        { label: "Name", key: "Name", IsDisabled: true },
+        { label: "WhatsApp Number", key: "WhatsappNumber", IsDisabled: true },
+        { label: "Email ID", key: "EmailID", IsDisabled: true },
         {
             label: "Status",
             key: "IsActive",
+            IsDisabled: true,
             render: (row) =>
                 row.IsActive === "True" ? (
                     <span className="badge bg-success">Active</span>
@@ -45,7 +35,7 @@ const Users = () => {
                     <span className="badge bg-danger">Inactive</span>
                 ),
         },
-        { label: "Role", key: "UserRole" },
+        { label: "Role", key: "UserRole", IsDisabled: true },
     ];
 
     return (
@@ -60,8 +50,6 @@ const Users = () => {
                 padding: "20px", // Add some padding for spacing
             }}
         >
-            {/* <h2>Users</h2> */}
-
             {/* Conditional rendering for feedback */}
             {loading && <Spinner color="primary" />}
             {error && (
@@ -84,12 +72,10 @@ const Users = () => {
                         data={data}
                         columns={columns}
                         heading={"Users"}
-                        onUpdate={handleRowUpdate}
                         style={{
                             fontSize: "1.1rem", // Increase font size for better readability
                             padding: "10px", // Add padding for cells
                         }}
-
                     />
                 </div>
             ) : (
@@ -108,7 +94,6 @@ const Users = () => {
             <UserRegisterModal isOpen={isModalOpen} toggle={toggleModal} />
         </div>
     );
-
 };
 
 export default Users;
