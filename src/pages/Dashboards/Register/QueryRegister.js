@@ -87,6 +87,14 @@ const QueryRegister = () => {
   const handleFilterTodayStatus = (event) =>
     SetFilterTodayStatus(event.target.value);
   // Extract unique values for dropdown filters
+
+  const handleClearFilters =() => {
+    setFilterStatus("");
+    setFilterModule("");
+    setFilterClient("");
+    SetFilterTodayStatus("");
+  };
+
   const uniqueStatuses = [
     ...new Set(
       queriesData?.map((query) => query?.CurrentStatus || "Not Updated")
@@ -257,6 +265,9 @@ const QueryRegister = () => {
                                 setSearchQuery(e.target.value.toLowerCase())
                               }
                             />
+                          </Col>
+                          <Col md="3" className="mt-4 ms-auto">
+                            <button className="btn btn-secondary" onClick={handleClearFilters}>Clear Filters</button>
                           </Col>
                         </Row>
                       </th>
