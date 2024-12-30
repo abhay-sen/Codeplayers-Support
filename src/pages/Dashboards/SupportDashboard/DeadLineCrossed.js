@@ -20,8 +20,7 @@ const DeadLineCrossed = ({ queries }) => {
     ).sort((a, b) => new Date(b.ReportDateTime) - new Date(a.ReportDateTime)) || [];
 
     const handleCardClick = (queryData) => {
-        localStorage.setItem("query", JSON.stringify(queryData));
-        navigate("/ticketdetails"); // Navigate to your ticket details page
+        navigate(`/Support/TrackQuery?QueryID=${queryData.SupportID}`);
     };
 
     return (

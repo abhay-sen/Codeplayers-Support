@@ -143,7 +143,7 @@ const TicketDetails = () => {
     // Check if completedOn is the default invalid time
     if (completedOn === "0001-01-01T00:00:00") {
       return `Time Passed: ${moment
-        .duration(moment().diff(moment.utc(data.ReportDateTime).local()))
+        .duration(moment().diff(moment.utc(data[0].ReportDateTime).local()))
         .humanize()}`;
     }
 
