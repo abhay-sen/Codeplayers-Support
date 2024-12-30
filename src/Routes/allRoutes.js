@@ -5,6 +5,7 @@ import { Navigate } from "react-router-dom";
 import Login from "../pages/ERPLogin/Authentication/Login";
 import Logout from "../pages/ERPLogin/Authentication/Logout";
 import Register from "../pages/Register/Authentication";
+import Profile from "../pages/Profile/Profile";
 // Dashboards
 import Registration from "../pages/ERPLogin/jhaki/Registration";
 import UserOnboarding from "../pages/AddressVerification/UserOnboarding";
@@ -107,6 +108,10 @@ const authProtectedRoutes = [
   {
     path: "/quotation-register",
     component: <QuotationRegister />,
+  },
+  {
+    path:"/profile",
+    component: <Profile/>,
   },
   {
     path: "/order-details",

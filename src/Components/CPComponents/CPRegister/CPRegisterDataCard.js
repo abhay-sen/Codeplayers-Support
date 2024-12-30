@@ -289,7 +289,7 @@ const QueryCard = ({ data, onButtonClick, query }) => {
                           className={
                             query.IsCritical
                               ? "table-danger"
-                              : query.CurrentStatus === "Done"
+                              : query.CurrentStatus === "Done"||query.CurrentStatus==="Invalid"
                                 ? "table-success"
                                 : moment
                                   .utc(query.DueDate)
@@ -313,8 +313,8 @@ const QueryCard = ({ data, onButtonClick, query }) => {
                               ? ""
                               : query.DueDate === "0001-01-01T00:00:00"
                                 ? "Support User to be assigned"
-                                : query.CurrentStatus === "Done"
-                                  ? "Query is Done"
+                                : query.CurrentStatus === "Done"||query.CurrentStatus==="Invalid"
+                                  ? `Query is ${query.CurrentStatus}`
                                   : query.IsCritical &&
                                     moment
                                       .utc(query.DueDate)

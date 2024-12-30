@@ -15,9 +15,12 @@ const ReviewPending = ({ queries }) => {
     const [selectedRow, setSelectedRow] = useState(null);
 
     // Filter queries to exclude those with status "Done"
-    const filteredQueries = queries?.filter(
-        (query) => query.IsApproved === true && query.CurrentStatus === "Review Pending"
-    ) || [];
+    const filteredQueries = queries
+        ?.filter(query => query.IsApproved === true && query.CurrentStatus === "Review Pending")
+        .sort((a, b) => new Date(b.ReportDateTime) - new Date(a.ReportDateTime)) || [];
+
+
+
 
     // Handle card click: Set data to localStorage and navigate to the ticket details page
     const handleCardClick = (queryData) => {

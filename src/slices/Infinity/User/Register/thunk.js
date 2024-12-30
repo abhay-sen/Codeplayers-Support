@@ -56,10 +56,11 @@ export const PATCH_USER_Data = createAsyncThunk(
             console.log(user);
 
             const response = User_Patch_Register({
-                SubUserID: user.SubUserID,
+                // SubUserID: user.SubUserID,
                 SubUserName: user.Name,
-                WhatsappNumber: user.WhatsappNumber,
-                UserType: JSON.parse(localStorage.getItem("vendorUser")).userType,
+                // WhatsappNumber: user.WhatsappNumber,
+                // UserType: JSON.parse(localStorage.getItem("vendorUser")).userType,
+                SubUserProfileImage: user.SubUserProfileImage,
                 IsActive: user.IsActive,
             });
 

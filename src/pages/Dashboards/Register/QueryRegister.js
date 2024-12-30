@@ -19,10 +19,14 @@ import QueryCard from "../../../Components/CPComponents/CPRegister/CPRegisterDat
 import { useDispatch, useSelector } from "react-redux";
 import { GET_SupportDashboard } from "../../../slices/Dashboards/SupportDashboard/thunk"; // Ensure this import is used correctly
 import CPSupportDataCardSirEdit from "./../../../Components/CPComponents/CPDashboard/Support/CPSupportDataCardSirEdit";
+import { useLocation } from "react-router-dom";
 import classnames from "classnames";
 const QueryRegister = () => {
   // State for filters
   const userType = localStorage.getItem("userType");
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search); // Parse query string
+  const moduleName = queryParams.get('moduleName');
   const [filterStatus, setFilterStatus] = useState(""); // For filtering by CurrentStatus
   const [filterModule, setFilterModule] = useState(""); // For filtering by Module
   const [filterClient, setFilterClient] = useState(""); // For filtering by Client
@@ -30,7 +34,11 @@ const QueryRegister = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [selectedRow, setSelectedRow] = useState(null);
   const [modalData, setModalData] = useState(null);
-
+  useEffect(()=>{
+    if(moduleName){
+      setFilterModule(moduleName);
+    }
+  },[moduleName]);
   // Redux state
   const data = useSelector((state) => state.SupportDashboard.data);
   const loading = useSelector((state) => state.SupportDashboard.loading);

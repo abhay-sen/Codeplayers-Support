@@ -4,11 +4,12 @@ import { Card, CardBody, CardHeader, Row, Col } from "reactstrap";
 import IconsForVoucherType from "../../../Components/CPComponents/CPIcons/IconsForVoucherType";
 import SimpleBar from "simplebar-react";
 import Not_Available from "../../../assets/Not_Available.png"; // Corrected typo in "Not_Available"
+import {useNavigate} from "react-router-dom"
 const ModuleWiseDistribution = ({ data }) => {
     const [chartData, setChartData] = useState([]);
     const [moduleLabels, setModuleLabels] = useState([]);
     const [moduleSummary, setModuleSummary] = useState({});
-
+    const navigate = useNavigate();
     useEffect(() => {
         if (data && data.length > 0) {
             const summary = calculateModuleSummary(data);
@@ -58,6 +59,10 @@ const ModuleWiseDistribution = ({ data }) => {
             }
         });
         return summary;
+    };
+    const handleModuleClick = (moduleName) => {
+        // Route to the query-register page and pass the moduleName as a query parameter
+        navigate(`/support-register?moduleName=${encodeURIComponent(moduleName)}`);
     };
 
     return (
@@ -109,6 +114,7 @@ const ModuleWiseDistribution = ({ data }) => {
                                                     ? "rgba(208, 233, 255, 0.2)" // Light blue shade
                                                     : "rgba(208, 255, 214, 0.2)", // Light green shade
                                         }}
+                                        onClick={() => handleModuleClick(moduleName)}
                                     >
                                         <div className="d-flex align-items-center">
                                             <div className="avatar-xs flex-shrink-0">

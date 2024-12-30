@@ -72,8 +72,7 @@ const Login = (props) => {
   }, [autoSubmitted]);
 
   useEffect(() => {
-    const lastVisitedPath = localStorage.getItem('lastVisitedPath');
-    const userType = localStorage.getItem('userType');
+    
     const prevPage=sessionStorage.getItem('previousPage')||"/support-dashboard";
     if (success ) {
       window.location.href=prevPage;

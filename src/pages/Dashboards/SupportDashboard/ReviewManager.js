@@ -17,7 +17,7 @@ const ApprovalPending = ({ queries }) => {
     // Filter queries to exclude those with status "Done"
     const filteredQueries = (queries || []).filter(
         (query) => query.CurrentStatus === "Approval Pending"
-      );
+    ).sort((a, b) => new Date(b.ReportDateTime) - new Date(a.ReportDateTime)) || [];;
       
 
     // Handle card click: Set data to localStorage and navigate to the ticket details page

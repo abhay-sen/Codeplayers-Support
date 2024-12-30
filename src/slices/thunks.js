@@ -42,3 +42,5 @@ export  * from "./ERPLogin/auth/ChangePassword/thunk"
 export * from "./Dashboards/SupportDashboard/TicketDetails/GetMedia/thunk"
 
 export * from "./Dashboards/SupportDashboard/ApprovalPending/thunk"
+
+// export * from "./Profile/Image/thunk"

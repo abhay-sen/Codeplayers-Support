@@ -23,8 +23,13 @@ const Users = () => {
 
 
     const handleRowUpdate = (updatedRow) => {
-        dispatch(PATCH_USER_Data(updatedRow))
+        // Create a new object by spreading the original updatedRow and modifying SubUserProfileImage
+        const newRow = { ...updatedRow, SubUserProfileImage: "" };
+
+        // Dispatch the action with the updated newRow
+        dispatch(PATCH_USER_Data(newRow));
     };
+
 
     const columns = [
         { label: "Name", key: "Name" },

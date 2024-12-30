@@ -23,7 +23,7 @@ const ReviewPending = ({ queries }) => {
     };
 
     // Filter queries based on the updated logic
-    const filteredQueries = queries?.filter(renderQueryStatus) || [];
+    const filteredQueries = queries?.filter(renderQueryStatus).sort((a, b) => new Date(b.ReportDateTime) - new Date(a.ReportDateTime)) || [];
 
     // Handle card click: Navigate to ticket details page
     const handleCardClick = (queryData) => {

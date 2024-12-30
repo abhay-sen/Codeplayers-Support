@@ -12,7 +12,7 @@ const CriticalQueries = ({ queries }) => {
     // Check if queries is null, undefined, or empty
     
 
-    const criticalQueries = queries.filter((query) => query.IsCritical);
+    const criticalQueries = queries.filter((query) => query.IsCritical).sort((a, b) => new Date(b.ReportDateTime) - new Date(a.ReportDateTime)) || [];
 
     const handleCardClick = (queryData) => {
         localStorage.setItem("query", JSON.stringify(queryData));

@@ -72,7 +72,7 @@ export const GET_DAILYSTATUS_DETAILS = "API/Support/DailyStatus/";
 export const GET_ATTACHMENT_DETAILS = "API/Support/TicketMedia/";
 export const POST_APPROVAL_PENDING = "api/support/Approval/"
 export const POST_VENDOR_CHANGE_PASSWORD = "api/licensing/changepassword/";
-
+export const GET_VENDOR_PROFILE_PICTURE="api/"
 // export const POST_VENDORRFP_Data = "/api/InfinityX/VendorRFPDetails";
 // export const SAVE_VENDORRFP_Data = "/api/InfinityX/SaveRFPDetails";
 

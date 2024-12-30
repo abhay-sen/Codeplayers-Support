@@ -55,6 +55,7 @@ import UploadMediaReducer from "./Dashboards/SupportDashboard/TicketDetails/GetM
 
 import ApprovalPendingReducer from "./Dashboards/SupportDashboard/ApprovalPending/reducer"
 
+// import ProfileEditReducer from "./Profile/Image/reducer"
 const rootReducer = combineReducers({
   Layout: LayoutReducer,
   VendorLogin: VendorLoginReducer,
@@ -86,8 +87,9 @@ const rootReducer = combineReducers({
   SupportStatuses: SupportStatusReducer,
   DailyStatusById:DailyStatusByIdReducer,
   UploadMedia: UploadMediaReducer,
-  ApprovalPending: ApprovalPendingReducer
-   // UserNotifications: UserNotificationsReducer,
+  ApprovalPending: ApprovalPendingReducer,
+  // ProfileEdit:ProfileEditReducer
+  // UserNotifications: UserNotificationsReducer,
 });
 
 export default rootReducer;

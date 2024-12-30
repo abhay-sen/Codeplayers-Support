@@ -17,7 +17,7 @@ const DeadLineCrossed = ({ queries }) => {
         (individualData) =>
             moment(individualData.DueDate).isBefore(moment()) &&
             individualData.DueDate !== "0001-01-01T00:00:00"
-    );
+    ).sort((a, b) => new Date(b.ReportDateTime) - new Date(a.ReportDateTime)) || [];
 
     const handleCardClick = (queryData) => {
         localStorage.setItem("query", JSON.stringify(queryData));
