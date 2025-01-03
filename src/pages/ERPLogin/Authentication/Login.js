@@ -72,8 +72,15 @@ const Login = (props) => {
   }, [autoSubmitted]);
 
   useEffect(() => {
-    
-    const prevPage=sessionStorage.getItem('previousPage')||"/support-dashboard";
+    let routeTo;
+    if(success){
+      if(userType=="Vend-X"){
+        routeTo = "/Vendor-Dashboard";
+      }else{
+        routeTo= "/support-dashboard";
+      }
+    }
+    const prevPage= routeTo;
     if (success ) {
       window.location.href=prevPage;
     }

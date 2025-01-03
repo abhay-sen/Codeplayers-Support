@@ -23,6 +23,7 @@ import * as Yup from "yup";
 const OrderDetails = () => {
   const { state } = useLocation();
   const { order: initialOrder } = state || {};
+  console.log(state);
   const [order, setOrder] = useState(initialOrder);
   const [modal, setModal] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
@@ -178,6 +179,7 @@ const OrderDetails = () => {
       order:order,
       terms:termsData,
     };
+    console.log(OrderAndTerms)
   }
   return (
     <div className="page-content">

@@ -113,7 +113,7 @@ const Settings = ({ selectedCategories, setSelectedCategories }) => {
             // Navigate based on OTP verification status
 
             localStorage.setItem("verifiedAddress", true);
-            navigate("/dashboards-erp");
+            navigate("/vendor-dashboard");
         }
     }, [success, navigate, data]);
         return (

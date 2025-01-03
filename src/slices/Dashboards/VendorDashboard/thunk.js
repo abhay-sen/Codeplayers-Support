@@ -2,21 +2,12 @@ import { ERP_GET_VendorDashboard } from "../../../helpers/fakebackend_helper";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const GET_VendorDashboard = createAsyncThunk(
-  "MainDashboard/post",
-  async ({ FromDate, ToDate, existingData, filterArray }, thunkAPI) => {
+  "vendorDashboard/get",
+  async ( thunkAPI) => {
     try {
-      if (existingData && filterArray) {
-        return applyFilters(existingData, filterArray);
-      }
+      
 
-      if (FromDate === undefined || ToDate === undefined) return;
-
-      const bodyData = {
-        FromDate: FromDate,
-        ToDate: ToDate,
-      };
-
-      const response = ERP_GET_VendorDashboard(bodyData);
+      const response = ERP_GET_VendorDashboard();
       const data = await response;
       return data;
     } catch (error) {

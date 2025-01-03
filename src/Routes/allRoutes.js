@@ -123,12 +123,7 @@ const authProtectedRoutes = [
   },
   {
     path: "/vendor-dashboard",
-    component: (
-      <RouteProtection
-        component={<VendorDashboard />}
-        allowedUserTypes={["Vend-X"]}
-      />
-    ),
+    component: <VendorDashboard/>,
   },
   {
     path: "/training-dashboard",

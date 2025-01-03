@@ -16,7 +16,7 @@ export const Vendor_Post_ForgotPassword = (data) =>
 export const Address_Post_details = (data) =>
   api.create(url.ADDRESS_DETAILS, data);
 export const ERP_GET_VendorDashboard = (data) =>
-  api.create(url.GET_VENDOR_DASHBOARD, data);
+  api.get(url.GET_VENDOR_DASHBOARD, data);
 
 //support
 export const ERP_GET_SupportDashboard = (data) =>

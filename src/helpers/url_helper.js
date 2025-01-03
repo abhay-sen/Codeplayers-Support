@@ -23,7 +23,7 @@ export const ADDRESS_DETAILS = "/Api/licensing/updatesubscriber";
 export const GET_MAX_TICKET_NUMBER = "/api/support/MaxTicketNumber?TicketType=Support"
 
 //vendor
-export const GET_VENDOR_DASHBOARD = "/api/InfinityX/DashboardData";
+export const GET_VENDOR_DASHBOARD = "https://api.jsonbin.io/v3/b/6777ae96e41b4d34e46f4346";
 
 //support
 export const GET_ERP_SUPPORT_DASHBOARD = "/API/Support/Ticket?EntryType=Support"

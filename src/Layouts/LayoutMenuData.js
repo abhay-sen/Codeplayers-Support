@@ -199,7 +199,12 @@ const Navdata = () => {
 
       ];
    
-  }
+    } else if (userType === "Vend-X") {
+      menuItems = [
+        { id: "Quotation", label: "Quotation Register", icon: "ri-calculator-fill", link: "/Quotation-register" },
+        { id: "Vendor.Dashboard", label: "Dashboard", icon: "ri-calculator-fill", link: "/vendor-dashboard" },
+      ];
+    }
   
 
   return <React.Fragment>{menuItems}</React.Fragment>;
